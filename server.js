@@ -4,6 +4,9 @@ const connectDB = require('./config/db');
 // Calling connectDB to connect my database on MongoDB atlas
 
 const app = express();
+const cors = require('cors');
+
+app.use(cors())
 
 const PORT = process.env.PORT || 5000;
 
