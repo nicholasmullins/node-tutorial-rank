@@ -24,6 +24,9 @@ router.post(
         .isEmpty(),
       check('teacher', 'Teacher is required')
         .not()
+        .isEmpty(),
+      check('link', 'YouTube URL is required')
+        .not()
         .isEmpty()
     ]
   ],
@@ -38,6 +41,7 @@ router.post(
 
       const newVideo = new Video({
         title: req.body.title,
+        link: req.body.link,
         desc: req.body.desc,
         teacher: req.body.teacher,
         name: user.name,
@@ -121,7 +125,7 @@ router.delete('/:id', auth, async (req, res) => {
   }
 });
 
-// PUT - Like a Post
+// PUT - Like a Video
 // api/videos/like/:id
 
 router.put('/like/:id', auth, async (req, res) => {
@@ -218,7 +222,7 @@ router.post(
 
       await video.save();
 
-      res.json(video);
+      res.json(video.reviews);
     } catch (err) {
       console.error(err.message);
       res.status(500).send('Server Error');
@@ -258,8 +262,8 @@ router.delete('/review/:id/:review_id', auth, async (req, res) => {
     // Find the index of the review and then splice it out
 
     const removeIndex = video.reviews
-      .map(review => review.user.toString())
-      .indexOf(req.user.id); // we are mapping through the likes to get the index of the user.id in the like
+      .map(review => review.id)
+      .indexOf(req.params.review_id); // we are mapping through the likes to get the index of the user.id in the like
 
     video.reviews.splice(removeIndex, 1); // then we will splice that index from the array
 
