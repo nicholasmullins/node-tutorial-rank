@@ -7,21 +7,19 @@ const db = config.get('mongoURI');
 // Writing this as an async function since this is the new way I learned to do these things
 
 const connectDB = async () => {
-
-    try {
-        await mongoose.connect(db, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-            useCreateIndex: true,
-            useFindAndModify: false
-        })
-        console.log('MongoDB connected')
-
-    } catch (err) {
-        console.error(err.message)
-        // this is to exit process with failure
-        process.exit(1)
-    }
-}
+  try {
+    await mongoose.connect(db, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      useCreateIndex: true,
+      useFindAndModify: false
+    });
+    console.log('MongoDB connected');
+  } catch (err) {
+    console.error(err.message);
+    // this is to exit process with failure
+    process.exit(1);
+  }
+};
 
 module.exports = connectDB;
